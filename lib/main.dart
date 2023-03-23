@@ -1,3 +1,4 @@
+import 'package:cricket/config/app_constants.dart';
 import 'package:cricket/config/size_configs.dart';
 import 'package:cricket/controllers/screen_controller.dart';
 import 'package:cricket/utils/init_app.dart';
@@ -17,13 +18,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Cricket .',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const AppPage(),
+      home: AppPage(),
     );
   }
 }
@@ -132,8 +130,28 @@ class HomePage extends StatelessWidget {
   }
 }
 
-class MatchesPage extends StatelessWidget {
+class MatchesPage extends StatefulWidget {
   const MatchesPage({Key? key}) : super(key: key);
+
+  @override
+  State<MatchesPage> createState() => _MatchesPageState();
+}
+
+class _MatchesPageState extends State<MatchesPage>
+    with TickerProviderStateMixin {
+  late TabController? _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(vsync: this, length: 3);
+  }
+
+  @override
+  void dispose() {
+    _tabController!.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -143,8 +161,90 @@ class MatchesPage extends StatelessWidget {
         centerTitle: true,
         title: const Text('My Matches'),
       ),
-      body: const Center(
-        child: Text('Matches Page'),
+      body: SizedBox(
+        height: SizeConfig.screenHeight,
+        width: SizeConfig.screenWidth,
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          TabBar(
+            isScrollable: false,
+            controller: _tabController,
+            indicatorColor: AppConstants.redColor,
+            indicatorWeight: 4,
+            indicatorSize: TabBarIndicatorSize.tab,
+            labelColor: Colors.black,
+            labelStyle: TextStyle(
+                color: Colors.black,
+                letterSpacing: 1,
+                fontSize: SizeConfig.screenWidth! * 0.04,
+                fontWeight: FontWeight.w700),
+            unselectedLabelColor: Colors.black45,
+            unselectedLabelStyle: TextStyle(
+                color: Colors.black45,
+                letterSpacing: 1,
+                fontSize: SizeConfig.screenWidth! * 0.04,
+                fontWeight: FontWeight.w600),
+            labelPadding:
+                const EdgeInsets.only(right: 15, left: 15, top: 15, bottom: 15),
+            // ignore: prefer_const_literals_to_create_immutables
+            tabs: const [
+              Text(
+                'Upcoming',
+              ),
+              Text(
+                'Live',
+              ),
+              Text(
+                'Completed',
+              ),
+            ],
+          ),
+          Flexible(
+            child: TabBarView(controller: _tabController, children: const [
+              UpcomingMatch(),
+              LiveMatch(),
+              CompletedMatch()
+            ]),
+          )
+        ]),
+      ),
+    );
+  }
+}
+
+class UpcomingMatch extends StatelessWidget {
+  const UpcomingMatch({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text('Upcoming Match'),
+      ),
+    );
+  }
+}
+
+class LiveMatch extends StatelessWidget {
+  const LiveMatch({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text('Live Match'),
+      ),
+    );
+  }
+}
+
+class CompletedMatch extends StatelessWidget {
+  const CompletedMatch({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Center(
+        child: Text('Completed Match'),
       ),
     );
   }
