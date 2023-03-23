@@ -5,10 +5,8 @@ class UpcomingMatch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Upcoming Match'),
-      ),
+    return const Center(
+      child: Text('Upcoming Match'),
     );
   }
 }
