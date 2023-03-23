@@ -1,3 +1,4 @@
+import 'package:cricket/controllers/data_controller.dart';
 import 'package:cricket/screens/crypto_page.dart';
 import 'package:cricket/screens/home_page.dart';
 import 'package:cricket/screens/matches_page.dart';
@@ -29,6 +30,7 @@ class AppPage extends StatefulWidget {
 class _AppPageState extends State<AppPage> with SingleTickerProviderStateMixin {
   late TabController tabController;
   final ScreenController _screenController = Get.find<ScreenController>();
+  final DataController _dataController = Get.find<DataController>();
 
   @override
   initState() {
@@ -40,6 +42,29 @@ class _AppPageState extends State<AppPage> with SingleTickerProviderStateMixin {
   void dispose() {
     tabController.dispose();
     super.dispose();
+  }
+
+  handleBottomNav(int index) {
+    switch (index) {
+      case 0:
+        break;
+
+      case 1:
+        _dataController.fetchMatchDetails();
+        break;
+
+      case 2:
+        break;
+
+      case 3:
+        break;
+
+      case 4:
+        break;
+
+      default:
+    }
+    _screenController.changeScreenIndex(index);
   }
 
   @override
@@ -57,7 +82,7 @@ class _AppPageState extends State<AppPage> with SingleTickerProviderStateMixin {
                       borderSide: BorderSide(
                         width: 1,
                       )),
-                  onTap: (index) => _screenController.changeScreenIndex(index),
+                  onTap: handleBottomNav,
                   controller: tabController,
                   tabs: allDestinations
                       .map((e) => Column(
