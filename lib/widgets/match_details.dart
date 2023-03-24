@@ -3,7 +3,6 @@ import 'package:cricket/screens/pick_players.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:get/route_manager.dart';
 
 import '../config/app_constants.dart';
 import '../config/size_configs.dart';
@@ -15,7 +14,12 @@ class MatchDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Get.to(const PickPlayers()),
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => PickPlayers(
+                    matchKey: match.key!,
+                  ))),
       child: Container(
         margin: const EdgeInsets.all(20),
         width: SizeConfig.screenWidth,
