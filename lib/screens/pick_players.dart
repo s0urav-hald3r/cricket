@@ -66,6 +66,11 @@ class _PickPlayersState extends State<PickPlayers>
         ),
         body: Obx(
           () {
+            int wk = 0;
+            int bat = 0;
+            int ar = 0;
+            int bowl = 0;
+
             if (_dataController.isLoading) {
               return Center(
                 child: CircularProgressIndicator(
@@ -73,6 +78,7 @@ class _PickPlayersState extends State<PickPlayers>
                 ),
               );
             }
+
             return SizedBox(
               width: SizeConfig.screenWidth,
               height: SizeConfig.screenHeight,
@@ -207,29 +213,29 @@ class _PickPlayersState extends State<PickPlayers>
                     labelStyle: TextStyle(
                         color: Colors.black,
                         letterSpacing: 1,
-                        fontSize: SizeConfig.screenWidth! * 0.04,
+                        fontSize: SizeConfig.screenWidth! * 0.0325,
                         fontWeight: FontWeight.w700),
                     unselectedLabelColor: Colors.black45,
                     unselectedLabelStyle: TextStyle(
                         color: Colors.black45,
                         letterSpacing: 1,
-                        fontSize: SizeConfig.screenWidth! * 0.04,
+                        fontSize: SizeConfig.screenWidth! * 0.0325,
                         fontWeight: FontWeight.w600),
                     labelPadding: const EdgeInsets.only(
-                        right: 15, left: 15, top: 20, bottom: 20),
+                        right: 12.5, left: 12.5, top: 20, bottom: 20),
                     // ignore: prefer_const_literals_to_create_immutables
-                    tabs: const [
+                    tabs: [
                       Text(
-                        'WK',
+                        'WK ($wk)',
                       ),
                       Text(
-                        'BAT',
+                        'BAT ($bat)',
                       ),
                       Text(
-                        'AR',
+                        'AR ($ar)',
                       ),
                       Text(
-                        'BOWL',
+                        'BOWL ($bowl)',
                       ),
                     ],
                   ),
