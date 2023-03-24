@@ -59,22 +59,33 @@ class WK extends StatelessWidget {
                       color: Colors.black54,
                       fontWeight: FontWeight.w600),
                 ),
+                const Spacer(flex: 2),
               ],
             ),
           ),
           Obx(() {
-            List<Cricketer> list = [];
+            List<Cricketer> playerList = [];
             if (_dataController.pickPlayers.value!.data != null) {
-              list = _dataController
+              playerList = _dataController
                   .pickPlayers.value!.data!.players!.cricketer!
                   .where((element) => element.seasonalRole == 'keeper')
                   .toList();
             }
             return ListView.builder(
                 shrinkWrap: true,
-                itemCount: list.length,
+                itemCount: playerList.length,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
+                  double creditValue = _dataController
+                      .pickPlayers.value!.data!.fantasyPoints!
+                      .firstWhere(
+                          (element) => element.player == playerList[index].key)
+                      .creditValue!;
+                  double seasonPoints = _dataController
+                      .pickPlayers.value!.data!.fantasyPoints!
+                      .firstWhere(
+                          (element) => element.player == playerList[index].key)
+                      .seasonPoints!;
                   return Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 15),
@@ -82,37 +93,48 @@ class WK extends StatelessWidget {
                         border: Border.all(color: Colors.black45, width: .1)),
                     width: SizeConfig.screenWidth,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Icon(
                           Icons.person,
                           size: SizeConfig.screenWidth! * 0.075,
                         ),
+                        Gap(SizeConfig.screenWidth! * 0.075),
                         SizedBox(
                           width: SizeConfig.screenWidth! * 0.3,
                           child: Text(
-                            list[index].fullname!,
+                            playerList[index].fullname!,
                             style: TextStyle(
                                 fontSize: SizeConfig.screenWidth! * 0.035,
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w600),
                           ),
                         ),
-                        Text(
-                          '265.0',
-                          style: TextStyle(
-                              fontSize: SizeConfig.screenWidth! * 0.035,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w600),
-                        ),
+                        Gap(SizeConfig.screenWidth! * 0.06),
+                        SizedBox(
+                            width: SizeConfig.screenWidth! * 0.125,
+                            child: Center(
+                              child: Text(
+                                seasonPoints.toString(),
+                                style: TextStyle(
+                                    fontSize: SizeConfig.screenWidth! * 0.035,
+                                    color: Colors.black54,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            )),
+                        Gap(SizeConfig.screenWidth! * 0.05),
                         Row(
                           children: [
-                            Text(
-                              '9',
-                              style: TextStyle(
-                                  fontSize: SizeConfig.screenWidth! * 0.035,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.w600),
+                            SizedBox(
+                              width: SizeConfig.screenWidth! * 0.1,
+                              child: Center(
+                                child: Text(
+                                  creditValue.toString(),
+                                  style: TextStyle(
+                                      fontSize: SizeConfig.screenWidth! * 0.035,
+                                      color: Colors.black54,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
                             ),
                             const Gap(10),
                             DottedBorder(
