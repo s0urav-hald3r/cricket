@@ -1,11 +1,17 @@
 import 'package:cricket/config/app_constants.dart';
 import 'package:cricket/config/size_configs.dart';
+import 'package:cricket/models/pick_players.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:get/get.dart';
+
+import '../controllers/data_controller.dart';
 
 class WK extends StatelessWidget {
-  const WK({Key? key}) : super(key: key);
+  WK({Key? key}) : super(key: key);
+
+  final DataController _dataController = Get.find<DataController>();
 
   @override
   Widget build(BuildContext context) {
@@ -56,65 +62,74 @@ class WK extends StatelessWidget {
               ],
             ),
           ),
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: 7,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                  decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black45, width: .1)),
-                  width: SizeConfig.screenWidth,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        Icons.person,
-                        size: SizeConfig.screenWidth! * 0.075,
-                      ),
-                      SizedBox(
-                        width: SizeConfig.screenWidth! * 0.3,
-                        child: Text(
-                          'Dipti Sharma',
-                          style: TextStyle(
-                              fontSize: SizeConfig.screenWidth! * 0.035,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w600),
+          Obx(() {
+            List<Cricketer> list = [];
+            if (_dataController.pickPlayers.value!.data != null) {
+              list = _dataController
+                  .pickPlayers.value!.data!.players!.cricketer!
+                  .where((element) => element.seasonalRole == 'keeper')
+                  .toList();
+            }
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: list.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20, vertical: 15),
+                    decoration: BoxDecoration(
+                        border: Border.all(color: Colors.black45, width: .1)),
+                    width: SizeConfig.screenWidth,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Icon(
+                          Icons.person,
+                          size: SizeConfig.screenWidth! * 0.075,
                         ),
-                      ),
-                      Text(
-                        '265.0',
-                        style: TextStyle(
-                            fontSize: SizeConfig.screenWidth! * 0.035,
-                            color: Colors.black54,
-                            fontWeight: FontWeight.w600),
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            '9',
+                        SizedBox(
+                          width: SizeConfig.screenWidth! * 0.3,
+                          child: Text(
+                            list[index].fullname!,
                             style: TextStyle(
                                 fontSize: SizeConfig.screenWidth! * 0.035,
                                 color: Colors.black54,
                                 fontWeight: FontWeight.w600),
                           ),
-                          const Gap(10),
-                          DottedBorder(
-                            color: AppConstants.redColor,
-                            strokeWidth: 1,
-                            borderType: BorderType.Circle,
-                            child: Icon(Icons.add,
-                                color: AppConstants.redColor,
-                                size: SizeConfig.screenWidth! * 0.075),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              })
+                        ),
+                        Text(
+                          '265.0',
+                          style: TextStyle(
+                              fontSize: SizeConfig.screenWidth! * 0.035,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w600),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              '9',
+                              style: TextStyle(
+                                  fontSize: SizeConfig.screenWidth! * 0.035,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                            const Gap(10),
+                            DottedBorder(
+                              color: AppConstants.redColor,
+                              strokeWidth: 1,
+                              borderType: BorderType.Circle,
+                              child: Icon(Icons.add,
+                                  color: AppConstants.redColor,
+                                  size: SizeConfig.screenWidth! * 0.075),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
+                  );
+                });
+          })
         ],
       ),
     );

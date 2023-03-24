@@ -2,6 +2,7 @@ import 'package:cricket/config/app_constants.dart';
 import 'package:cricket/models/match_details.dart';
 import 'package:get/get.dart';
 
+import '../models/pick_players.dart';
 import '../service/exception.dart';
 import '../service/services.dart';
 
@@ -9,6 +10,7 @@ class DataController extends GetxController {
   final RxBool _isLoading = false.obs;
   final ApiProvider _apiProvider = ApiProvider();
   Rx<MatchDetails?> matchDetails = MatchDetails().obs;
+  Rx<PickPlayers?> pickPlayers = PickPlayers().obs;
 
   fetchMatchDetails() async {
     _isLoading.value = true;
@@ -36,6 +38,7 @@ class DataController extends GetxController {
       dynamic response = await _apiProvider.get(
           'https://rest.cricketapi.com/rest/v3/fantasy-match-credits/$matchKey/?access_token=${AppConstants.accessToken}');
       if (response != null) {
+        pickPlayers.value = PickPlayers.fromJson(response);
       }
     } catch (e) {
       if (e is CustomException) {

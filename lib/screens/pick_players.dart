@@ -79,6 +79,27 @@ class _PickPlayersState extends State<PickPlayers>
               );
             }
 
+            if (_dataController.pickPlayers.value!.data != null) {
+              for (var element in _dataController
+                  .pickPlayers.value!.data!.players!.cricketer!) {
+                switch (element.seasonalRole) {
+                  case 'allrounder':
+                    ar++;
+                    break;
+                  case 'batsman':
+                    bat++;
+                    break;
+                  case 'keeper':
+                    wk++;
+                    break;
+                  case 'bowler':
+                    bowl++;
+                    break;
+                  default:
+                }
+              }
+            }
+
             return SizedBox(
               width: SizeConfig.screenWidth,
               height: SizeConfig.screenHeight,
@@ -213,13 +234,13 @@ class _PickPlayersState extends State<PickPlayers>
                     labelStyle: TextStyle(
                         color: Colors.black,
                         letterSpacing: 1,
-                        fontSize: SizeConfig.screenWidth! * 0.0325,
+                        fontSize: SizeConfig.screenWidth! * 0.03,
                         fontWeight: FontWeight.w700),
                     unselectedLabelColor: Colors.black45,
                     unselectedLabelStyle: TextStyle(
                         color: Colors.black45,
                         letterSpacing: 1,
-                        fontSize: SizeConfig.screenWidth! * 0.0325,
+                        fontSize: SizeConfig.screenWidth! * 0.03,
                         fontWeight: FontWeight.w600),
                     labelPadding: const EdgeInsets.only(
                         right: 12.5, left: 12.5, top: 20, bottom: 20),
@@ -242,7 +263,7 @@ class _PickPlayersState extends State<PickPlayers>
                   Flexible(
                     child: TabBarView(
                         controller: _tabController,
-                        children: const [WK(), BAT(), AR(), BOWL()]),
+                        children: [WK(), BAT(), AR(), BOWL()]),
                   )
                 ],
               ),
