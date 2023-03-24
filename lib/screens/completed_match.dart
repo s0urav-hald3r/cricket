@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../config/size_configs.dart';
 import '../controllers/data_controller.dart';
+import '../models/match_details.dart';
 import '../widgets/match_details.dart';
 
 class CompletedMatch extends StatelessWidget {
@@ -13,9 +14,15 @@ class CompletedMatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (_dataController.matchDetails.value!.data == null ||
-          _dataController.matchDetails.value!.data!.months![0]
-              .days![DateTime.now().day - 1].matches!.isEmpty) {
+      bool isnull = _dataController.matchDetails.value!.data == null;
+      List<Matches> matches = [];
+      if (!isnull) {
+        matches = _dataController.matchDetails.value!.data!.months![0]
+            .days![DateTime.now().day - 1].matches!
+            .where((e) => e.status == 'completed')
+            .toList();
+      }
+      if (isnull || matches.isEmpty) {
         return Center(
           child: Text(
             'No Match Available !!!',
@@ -28,12 +35,7 @@ class CompletedMatch extends StatelessWidget {
       }
       return SingleChildScrollView(
         child: Column(
-          children: _dataController.matchDetails.value!.data!.months![0]
-              .days![DateTime.now().day - 1].matches!
-              .map((e) => e.status == 'completed'
-                  ? MatchDetailsCard(match: e)
-                  : const SizedBox())
-              .toList(),
+          children: matches.map((e) => MatchDetailsCard(match: e)).toList(),
         ),
       );
     });

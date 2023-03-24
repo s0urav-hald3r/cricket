@@ -1,3 +1,4 @@
+import 'package:cricket/models/match_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,12 +14,18 @@ class UpcomingMatch extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (_dataController.matchDetails.value!.data == null ||
-          _dataController.matchDetails.value!.data!.months![0]
-              .days![DateTime.now().day - 1].matches!.isEmpty) {
+      bool isnull = _dataController.matchDetails.value!.data == null;
+      List<Matches> matches = [];
+      if (!isnull) {
+        matches = _dataController.matchDetails.value!.data!.months![0]
+            .days![DateTime.now().day - 1].matches!
+            .where((e) => e.status == 'notstarted')
+            .toList();
+      }
+      if (isnull || matches.isEmpty) {
         return Center(
           child: Text(
-            'No Match Available !!!',
+            'No Upcoming Match Available !!!',
             style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
@@ -28,12 +35,7 @@ class UpcomingMatch extends StatelessWidget {
       }
       return SingleChildScrollView(
         child: Column(
-          children: _dataController.matchDetails.value!.data!.months![0]
-              .days![DateTime.now().day - 1].matches!
-              .map((e) => e.status == 'notstarted'
-                  ? MatchDetailsCard(match: e)
-                  : const SizedBox())
-              .toList(),
+          children: matches.map((e) => MatchDetailsCard(match: e)).toList(),
         ),
       );
     });
