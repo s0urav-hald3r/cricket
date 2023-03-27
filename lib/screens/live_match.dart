@@ -19,7 +19,7 @@ class LiveMatch extends StatelessWidget {
       if (!isnull) {
         matches = _dataController.matchDetails.value!.data!.months![0]
             .days![DateTime.now().day - 1].matches!
-            .where((e) => e.status != 'completed' && e.status != 'notstarted')
+            .where((e) => e.status == 'started')
             .toList();
       }
       if (isnull || matches.isEmpty) {

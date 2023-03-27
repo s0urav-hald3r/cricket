@@ -75,6 +75,7 @@ class _AppPageState extends State<AppPage> with SingleTickerProviderStateMixin {
             height: (kBottomNavigationBarHeight * 1.25) +
                 SizeConfig.safeAreaBottom!,
             child: BottomAppBar(
+              padding: EdgeInsets.zero,
               child: TabBar(
                   indicator: const UnderlineTabIndicator(
                       insets: EdgeInsets.fromLTRB(
@@ -107,7 +108,7 @@ class _AppPageState extends State<AppPage> with SingleTickerProviderStateMixin {
                                             allDestinations.indexOf(e)
                                         ? FontWeight.w600
                                         : FontWeight.w400,
-                                    fontSize: SizeConfig.screenWidth! * 0.028),
+                                    fontSize: SizeConfig.screenWidth! * 0.027),
                               )
                             ],
                           ))

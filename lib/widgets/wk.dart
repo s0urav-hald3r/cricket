@@ -1,9 +1,7 @@
-import 'package:cricket/config/app_constants.dart';
 import 'package:cricket/config/size_configs.dart';
 import 'package:cricket/models/pick_players.dart';
-import 'package:dotted_border/dotted_border.dart';
+import 'package:cricket/widgets/player_info.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 import '../controllers/data_controller.dart';
@@ -86,70 +84,10 @@ class WK extends StatelessWidget {
                       .firstWhere(
                           (element) => element.player == playerList[index].key)
                       .seasonPoints!;
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 15),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black45, width: .1)),
-                    width: SizeConfig.screenWidth,
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.person,
-                          size: SizeConfig.screenWidth! * 0.075,
-                        ),
-                        Gap(SizeConfig.screenWidth! * 0.075),
-                        SizedBox(
-                          width: SizeConfig.screenWidth! * 0.3,
-                          child: Text(
-                            playerList[index].fullname!,
-                            style: TextStyle(
-                                fontSize: SizeConfig.screenWidth! * 0.035,
-                                color: Colors.black54,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                        Gap(SizeConfig.screenWidth! * 0.06),
-                        SizedBox(
-                            width: SizeConfig.screenWidth! * 0.125,
-                            child: Center(
-                              child: Text(
-                                seasonPoints.toString(),
-                                style: TextStyle(
-                                    fontSize: SizeConfig.screenWidth! * 0.035,
-                                    color: Colors.black54,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                            )),
-                        Gap(SizeConfig.screenWidth! * 0.05),
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: SizeConfig.screenWidth! * 0.1,
-                              child: Center(
-                                child: Text(
-                                  creditValue.toString(),
-                                  style: TextStyle(
-                                      fontSize: SizeConfig.screenWidth! * 0.035,
-                                      color: Colors.black54,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                              ),
-                            ),
-                            const Gap(10),
-                            DottedBorder(
-                              color: AppConstants.redColor,
-                              strokeWidth: 1,
-                              borderType: BorderType.Circle,
-                              child: Icon(Icons.add,
-                                  color: AppConstants.redColor,
-                                  size: SizeConfig.screenWidth! * 0.075),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
+                  return PlayerInfo(
+                      player: playerList[index],
+                      seasonPoints: seasonPoints,
+                      creditValue: creditValue);
                 });
           })
         ],
